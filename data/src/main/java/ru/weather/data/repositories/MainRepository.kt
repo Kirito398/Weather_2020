@@ -1,5 +1,6 @@
 package ru.weather.data.repositories
 
+import retrofit2.await
 import ru.weather.data.DataBaseConstantUtils
 import ru.weather.data.converters.ModelConverter
 import ru.weather.data.web.API

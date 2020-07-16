@@ -7,7 +7,7 @@ import ru.weather.data.models.ForeCastGsonModel
 
 interface API {
     @GET("weather")
-    fun getCityData(
+    suspend fun getCityData(
         @Query("q")
         cityName: String,
         @Query("APPID")
@@ -17,7 +17,7 @@ interface API {
     ): CityGsonModel
 
     @GET("forecast")
-    fun getForecast(
+    suspend fun getForecast(
         @Query("q")
         cityName: String,
         @Query("APPID")

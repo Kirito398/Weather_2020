@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.weather.data.DataBaseConstantUtils
 
-class APIClient {
+object APIClient {
     fun getClient(): API {
         val retrofit = Retrofit.Builder()
             .baseUrl(DataBaseConstantUtils.BASE_URL)
