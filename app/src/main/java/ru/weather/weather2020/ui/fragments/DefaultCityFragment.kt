@@ -7,9 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_default_city.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.withContext
 import ru.weather.data.repositories.MainRepository
 import ru.weather.data.web.APIClient
 import ru.weather.domain.interactors.MainInteractor
@@ -20,6 +17,8 @@ import ru.weather.weather2020.presenters.DefaultCityFragmentPresenter
 
 class DefaultCityFragment : Fragment(), DefaultCityFragmentInterface.View {
     private lateinit var presenter: DefaultCityFragmentInterface.Presenter
+
+    private fun <R> R.easyLog() = Log.d("DefaultCityFragment", this.toString())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,16 +40,20 @@ class DefaultCityFragment : Fragment(), DefaultCityFragmentInterface.View {
     }
 
     override fun setListeners() {
-        btnGet.setOnClickListener { presenter.onGetBtnClicked() }
+        srlDefaultCityLayout.setOnRefreshListener { presenter.onRefresh() }
     }
 
     override fun showCity(city: CityModel) {
         "Load city name: ${city.name}".easyLog()
+
+        city.apply {
+            tvCityName.text = name
+            tvDescription.text = weather[0].description.capitalize()
+            tvMainTemp.text = main.temp.toInt().toString()
+        }
     }
 
-    override fun showLoadingProgressBar(show: Boolean) {
-        pbLoading.visibility = if (show) View.VISIBLE else View.GONE
+    override fun hideRefreshProgressBar() {
+        srlDefaultCityLayout.isRefreshing = false
     }
-
-    private fun <R> R.easyLog() = Log.d("DefaultCityFragment", this.toString())
 }

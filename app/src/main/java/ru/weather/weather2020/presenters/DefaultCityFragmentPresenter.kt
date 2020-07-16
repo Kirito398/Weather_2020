@@ -11,11 +11,12 @@ class DefaultCityFragmentPresenter(private val view: DefaultCityFragmentInterfac
     override fun init() {
         view.initVars()
         view.setListeners()
+
+        onRefresh()
     }
 
-    override fun onGetBtnClicked() {
-        "onGetBtnClicked".easyLog()
-
+    override fun onRefresh() {
+        "Refreshing city data".easyLog()
         loadCityData()
     }
 
@@ -26,21 +27,19 @@ class DefaultCityFragmentPresenter(private val view: DefaultCityFragmentInterfac
             "Load City failed: $exception".easyLog()
 
             scope.launch(Dispatchers.Main) {
-                view.showLoadingProgressBar(false)
+                view.hideRefreshProgressBar()
             }
         }
 
         scope.launch(Dispatchers.Main + handler) {
-            view.showLoadingProgressBar(true)
-
             "Loading city data started".easyLog()
             val cityModel = async(Dispatchers.IO) {
-                interactor.getCityData("Kazan")
+                interactor.getCityData("Казань")
             }
             "Loading city data finished".easyLog()
 
             view.showCity(cityModel.await())
-            view.showLoadingProgressBar(false)
+            view.hideRefreshProgressBar()
         }
 
         "LoadCityData: end".easyLog()

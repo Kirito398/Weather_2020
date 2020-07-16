@@ -7,11 +7,12 @@ interface DefaultCityFragmentInterface {
         fun initVars()
         fun setListeners()
         fun showCity(city: CityModel)
-        fun showLoadingProgressBar(show: Boolean)
+        fun hideRefreshProgressBar()
+
     }
 
     interface Presenter {
         fun init()
-        fun onGetBtnClicked()
+        fun onRefresh()
     }
 }
