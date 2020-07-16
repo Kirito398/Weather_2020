@@ -16,7 +16,7 @@ interface API {
         metric: String
     ): CityGsonModel
 
-    @GET
+    @GET("forecast")
     fun getForecast(
         @Query("q")
         cityName: String,

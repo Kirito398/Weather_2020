@@ -6,5 +6,6 @@ class MainActivityPresenter(private val view: MainActivityInterface.View) : Main
     override fun init() {
         view.initVars()
         view.setListeners()
+        view.openDefaultFragment()
     }
 }
