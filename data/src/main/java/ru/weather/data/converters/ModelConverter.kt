@@ -1,5 +1,6 @@
 package ru.weather.data.converters
 
+import ru.weather.data.DataBaseConstantUtils
 import ru.weather.data.models.*
 import ru.weather.domain.models.*
 
@@ -32,7 +33,7 @@ object ModelConverter {
         return WeatherModel(
             gsonModel.main,
             gsonModel.description,
-            gsonModel.icon
+            "${DataBaseConstantUtils.ICON_URL}${gsonModel.icon}@2x.png"
         )
     }
 
