@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Weather 2020</string>
     <string name="grad_celsius">℃</string>
+    <string name="forecast_description">$1s - $2s</string>
 </resources>

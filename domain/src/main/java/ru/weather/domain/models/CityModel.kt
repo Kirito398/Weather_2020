@@ -7,7 +7,7 @@ data class CityModel(
     val main: MainModel,
     val wind: WindModel,
     val dt: Long,
-    val name: String
+    val name: String?
 ) {
     fun getData(): Calendar {
         val date = Calendar.getInstance()

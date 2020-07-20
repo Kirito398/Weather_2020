@@ -3,6 +3,7 @@ package ru.weather.weather2020.presenters
 import android.util.Log
 import kotlinx.coroutines.*
 import ru.weather.domain.interfaces.MainInteractorInterface
+import ru.weather.weather2020.converters.ModelConverter
 import ru.weather.weather2020.interfaces.DefaultCityFragmentInterface
 
 class DefaultCityFragmentPresenter(private val view: DefaultCityFragmentInterface.View, private val interactor: MainInteractorInterface) : DefaultCityFragmentInterface.Presenter {
@@ -17,7 +18,9 @@ class DefaultCityFragmentPresenter(private val view: DefaultCityFragmentInterfac
 
     override fun onRefresh() {
         "Refreshing city data".easyLog()
+        view.showHideRefreshProgressBar(true)
         loadCityData()
+        loadForecastData()
     }
 
     private fun loadCityData() {
@@ -27,7 +30,7 @@ class DefaultCityFragmentPresenter(private val view: DefaultCityFragmentInterfac
             "Load City failed: $exception".easyLog()
 
             scope.launch(Dispatchers.Main) {
-                view.hideRefreshProgressBar()
+                view.showHideRefreshProgressBar(false)
             }
         }
 
@@ -38,11 +41,30 @@ class DefaultCityFragmentPresenter(private val view: DefaultCityFragmentInterfac
             }
             "Loading city data finished".easyLog()
 
-            view.showCity(cityModel.await())
-            view.hideRefreshProgressBar()
+            view.showCity(ModelConverter.convertCityDataToViewModel(cityModel.await()))
+            view.showHideRefreshProgressBar(false)
         }
 
         "LoadCityData: end".easyLog()
+    }
+
+    private fun loadForecastData() {
+        val handler = CoroutineExceptionHandler { _, exception ->
+            "Load Forecast failed: $exception".easyLog()
+
+            scope.launch(Dispatchers.Main) {
+                view.showHideRefreshProgressBar(false)
+            }
+        }
+
+        scope.launch(Dispatchers.Main + handler) {
+            val forecastData = async(Dispatchers.IO) {
+                interactor.getForeCast("Казань")
+            }
+
+            view.updateForecastData(ModelConverter.convertForecastDataToViewModel(forecastData.await()))
+            view.showHideRefreshProgressBar(false)
+        }
     }
 
     private fun <R> R.easyLog() = Log.d("DefaultCityPresenter", this.toString())
