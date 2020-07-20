@@ -3,6 +3,7 @@ package ru.weather.weather2020.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.FragmentManager
+
 import ru.weather.weather2020.R
 import ru.weather.weather2020.interfaces.MainActivityInterface
 import ru.weather.weather2020.presenters.MainActivityPresenter

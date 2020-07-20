@@ -6,8 +6,13 @@ import ru.weather.domain.interfaces.MainInteractorInterface
 import ru.weather.weather2020.converters.ModelConverter
 import ru.weather.weather2020.interfaces.DefaultCityFragmentInterface
 
-class DefaultCityFragmentPresenter(private val view: DefaultCityFragmentInterface.View, private val interactor: MainInteractorInterface) : DefaultCityFragmentInterface.Presenter {
+class DefaultCityFragmentPresenter(private val interactor: MainInteractorInterface) : DefaultCityFragmentInterface.Presenter {
     private val scope = CoroutineScope(SupervisorJob())
+    private lateinit var view: DefaultCityFragmentInterface.View
+
+    override fun setView(view: DefaultCityFragmentInterface.View) {
+        this.view = view
+    }
 
     override fun init() {
         view.initVars()

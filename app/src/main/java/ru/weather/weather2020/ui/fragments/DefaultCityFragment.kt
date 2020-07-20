@@ -9,18 +9,17 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_default_city.*
 
-import ru.weather.data.repositories.MainRepository
-import ru.weather.data.web.APIClient
-import ru.weather.domain.interactors.MainInteractor
+import ru.weather.weather2020.App
 import ru.weather.weather2020.R
 import ru.weather.weather2020.interfaces.DefaultCityFragmentInterface
 import ru.weather.weather2020.models.CityDataViewModel
 import ru.weather.weather2020.models.ForecastViewModel
-import ru.weather.weather2020.presenters.DefaultCityFragmentPresenter
 import ru.weather.weather2020.ui.adapters.ForecastAdapter
+import javax.inject.Inject
 
 class DefaultCityFragment : Fragment(), DefaultCityFragmentInterface.View {
-    private lateinit var presenter: DefaultCityFragmentInterface.Presenter
+
+    @Inject lateinit var presenter: DefaultCityFragmentInterface.Presenter
     private lateinit var forecastAdapter: ForecastAdapter
 
     private fun <R> R.easyLog() = Log.d("DefaultCityFragment", this.toString())
@@ -36,12 +35,14 @@ class DefaultCityFragment : Fragment(), DefaultCityFragmentInterface.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        presenter = DefaultCityFragmentPresenter(this, MainInteractor(MainRepository(APIClient.getClient())))
+        App.getComponent().injectDefaultCityFragment(this)
+
+        presenter.setView(this)
         presenter.init()
     }
 
     override fun initVars() {
-        forecastAdapter = ForecastAdapter(mutableListOf(ForecastViewModel("bn", "jsdklf", "10.0")))
+        forecastAdapter = ForecastAdapter(mutableListOf())
 
         rvForecastList.setHasFixedSize(true)
         rvForecastList.layoutManager = GridLayoutManager(context, 1)

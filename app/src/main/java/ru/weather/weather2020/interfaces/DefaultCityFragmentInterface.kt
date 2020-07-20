@@ -13,6 +13,7 @@ interface DefaultCityFragmentInterface {
     }
 
     interface Presenter {
+        fun setView(view: View)
         fun init()
         fun onRefresh()
     }

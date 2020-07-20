@@ -8,7 +8,7 @@ import com.squareup.picasso.Picasso
 import ru.weather.weather2020.R
 import ru.weather.weather2020.models.ForecastViewModel
 
-class ForecastViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+class ForecastViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val icon = view.findViewById<ImageView>(R.id.ivIcon)
     private val description = view.findViewById<TextView>(R.id.tvForecastDescription)
     private val temp = view.findViewById<TextView>(R.id.tvForecastTemp)
