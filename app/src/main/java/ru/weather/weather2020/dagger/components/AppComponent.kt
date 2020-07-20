@@ -8,7 +8,9 @@ import ru.weather.weather2020.dagger.module.DomainModule
 import ru.weather.weather2020.dagger.module.PresentationModule
 import ru.weather.weather2020.interfaces.DefaultCityFragmentInterface
 import ru.weather.weather2020.ui.fragments.DefaultCityFragment
+import javax.inject.Singleton
 
+@Singleton
 @Component(modules = [DomainModule::class, DataModule::class, PresentationModule::class])
 interface AppComponent {
     fun getMainInteractor(): MainInteractorInterface
